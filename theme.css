@@ -1,6 +1,6 @@
 /*───────────────────────────────────────────────────────
 YOSUKE GLASS
-Version 0.1.0
+Version 0.1.1
 Created by Yosuke (@yosukedesign)
 
 黒＝Future Glass（ネオン夜景のガラス）／白＝Paper（紙）。※「Soft Paper」は nickmilo の既存テーマ名なので内部呼称も Paper に統一
@@ -486,7 +486,7 @@ body {
 }
 
 .markdown-preview-view h1,
-.markdown-source-view.mod-cm6 .cm-line:has(.cm-header-1) {
+.HyperMD-header.HyperMD-header-1.cm-line {
   border: solid 3px color-mix(in srgb, var(--yosuke-neon-cyan) 76%, var(--yosuke-neon-purple));
   border-radius: 0.5em;
   padding: 0.5em;
@@ -497,7 +497,7 @@ body {
 
 /* H2：左線 */
 .markdown-preview-view h2,
-.markdown-source-view.mod-cm6 .cm-line:has(.cm-header-2) {
+.HyperMD-header.HyperMD-header-2.cm-line {
   background: transparent;
   border-bottom: 0;
   border-left: solid 5px var(--yosuke-accent-color);
@@ -505,21 +505,21 @@ body {
 }
 
 .theme-dark .markdown-preview-view h2,
-.theme-dark .markdown-source-view.mod-cm6 .cm-line:has(.cm-header-2) {
+.theme-dark .HyperMD-header.HyperMD-header-2.cm-line {
   border-left-color: var(--yosuke-neon-cyan);
   box-shadow: -1px 0 12px color-mix(in srgb, var(--yosuke-neon-cyan) 14%, transparent);
 }
 
 /* H3：下線 */
 .markdown-preview-view h3,
-.markdown-source-view.mod-cm6 .cm-line:has(.cm-header-3) {
+.HyperMD-header.HyperMD-header-3.cm-line {
   border-bottom: solid 3px color-mix(in srgb, var(--yosuke-neon-cyan) 72%, var(--yosuke-neon-blue));
   padding-bottom: 0.28em;
 }
 
 /* H4：細い左線 */
 .markdown-preview-view h4,
-.markdown-source-view.mod-cm6 .cm-line:has(.cm-header-4) {
+.HyperMD-header.HyperMD-header-4.cm-line {
   border-left: 2px solid color-mix(in srgb, var(--yosuke-neon-purple) 54%, transparent);
   padding-left: 0.55em;
 }
@@ -532,12 +532,7 @@ body {
 }
 
 /* リンク */
-.markdown-preview-view a,
-.cm-link,
-.cm-hmd-internal-link {
-  text-decoration-thickness: 1px;
-  text-underline-offset: 2px;
-}
+/* リンクの下線の太さ・位置は Obsidian 1.4 系で未対応（審査Warning）のため指定しない */
 
 /* 引用（編集/閲覧ペア） */
 .markdown-rendered blockquote,
