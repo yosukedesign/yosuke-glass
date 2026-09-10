@@ -1,0 +1,638 @@
+/*───────────────────────────────────────────────────────
+YOSUKE GLASS
+Version 0.1.0
+Created by Yosuke (@yosukedesign)
+
+黒＝Future Glass（ネオン夜景のガラス）／白＝Paper（紙）。※「Soft Paper」は nickmilo の既存テーマ名なので内部呼称も Paper に統一
+相棒プラグイン Yosuke Design が --yosuke-* を body に上書きする。
+ここでは既定値だけ持つ（!important は使わない）。
+
+並び：1.変数 → 2.色の階段（.theme-dark / .theme-light）→ 3.個別の見た目（1機能=1見出し・編集/閲覧ペア）→ 4.他プラグイン
+────────────────────────────────────────────────────── */
+
+/* ─────────────────────────────────────────────────── */
+/* 1. 変数（作者の既定値。プラグインが同名で上書きする） */
+/* ─────────────────────────────────────────────────── */
+
+body {
+  /* パレット（黒の既定。白は .theme-light で差し替え） */
+  --yosuke-paper-bg: #070a16;      /* いちばん奥の地 */
+  --yosuke-sidebar-bg: #090e1d;    /* サイドバー・ヘッダー */
+  --yosuke-surface-bg: #11192f;    /* カード・コード・表 */
+  --yosuke-ink: #e8f3ff;           /* 本文 */
+  --yosuke-muted-ink: #91a7c2;     /* 弱い文字 */
+  --yosuke-heading-color: #ffffff; /* 見出し */
+  --yosuke-hairline-color: #22314a;/* 線 */
+
+  /* アクセント：Obsidian本体「外観 → アクセントカラー」に追従する。
+     既定の色は .theme-dark/.theme-light の --accent-h/s/l で決める（黒=#35d7ff・白=#0077b6）。
+     相棒プラグインはこの2つを直接上書きできる。 */
+  --yosuke-accent-color: var(--color-accent);  /* リンク・選択・h2 */
+
+  /* ネオン5色（シアンだけはアクセントと同じ色＝設定で一緒に変わる） */
+  --yosuke-neon-cyan: var(--color-accent);
+  --yosuke-neon-blue: #2e77ff;
+  --yosuke-neon-purple: #9b5cff;
+  --yosuke-neon-pink: #ff4fd8;
+  --yosuke-neon-green: #56f2b1;
+
+  /* 見出しの混色相手（黒は白へ寄せて光らせる） */
+  --yosuke-heading-mix: #ffffff;
+
+  /* タイポグラフィ（数値はプラグインが上書き） */
+  --yosuke-font-size: 16px;
+  --yosuke-line-height: 1.65;
+  --yosuke-letter-spacing: 0;
+
+  /* フォント：日本語は Hiragino Sans 優先（太字がしっかり出る）→ Windows は Yu Gothic → Android は Noto Sans CJK */
+  --font-text-theme: "Inter", "Hiragino Sans", "Yu Gothic UI", "Yu Gothic", "Noto Sans CJK JP", "Noto Sans JP", "Helvetica Neue", sans-serif;
+  --font-interface-theme: "Inter", "Hiragino Sans", "Yu Gothic UI", "Yu Gothic", "Noto Sans CJK JP", "Noto Sans JP", sans-serif;
+  --font-monospace-theme: "SF Mono", Menlo, "Cascadia Code", Consolas, monospace;
+  --h1-font: var(--font-text-theme);
+
+  --font-text-size: var(--yosuke-font-size);
+  --line-height-normal: var(--yosuke-line-height);
+  --p-spacing: 1em;
+
+  /* 見出しの大きさ・太さ */
+  --h1-size: 2.05em;
+  --h1-weight: 700;
+  --h1-line-height: 1.12;
+  --h2-size: 1.45em;
+  --h2-weight: 700;
+  --h3-size: 1.2em;
+  --h3-weight: 600;
+  --heading-spacing: 2.2em;
+
+  /* 形 */
+  --radius-s: 5px;
+  --radius-m: 8px;
+  --radius-l: 12px;
+  --file-line-width: 960px;
+
+  /* チェックボックス・タグ */
+  --checkbox-size: 1.1em;
+  --checkbox-radius: 50%;
+  --checkbox-marker-color: white;
+  --tag-radius: 999px;
+  --tag-padding-x: 0.7em;
+  --tag-padding-y: 0.15em;
+  --tag-size: 0.85em;
+}
+
+/* ─────────────────────────────────────────────────── */
+/* 2. 色の階段：Obsidian公式の --color-base-* に代入する   */
+/*    ここで本体・他プラグインの色が全部追従する            */
+/* ─────────────────────────────────────────────────── */
+
+/* 黒：Future Glass */
+.theme-dark {
+  color-scheme: dark;
+
+  /* 00=奥 → 100=文字（暗い→明るい） */
+  --color-base-00: var(--yosuke-paper-bg);
+  --color-base-05: var(--yosuke-sidebar-bg);
+  --color-base-10: #0c1226;
+  --color-base-20: var(--yosuke-surface-bg);
+  --color-base-25: #15203a;
+  --color-base-30: var(--yosuke-hairline-color);
+  --color-base-35: #2b3c58;
+  --color-base-40: #3b4e6e;
+  --color-base-50: #4f6484;
+  --color-base-60: #7189a6;
+  --color-base-70: var(--yosuke-muted-ink);
+  --color-base-100: var(--yosuke-ink);
+
+  /* アクセント（#35d7ff = hsl 192 100% 60%） */
+  --accent-h: 192;
+  --accent-s: 100%;
+  --accent-l: 60%;
+
+  /* 階段から派生しない所だけ名指し */
+  --background-secondary-alt: color-mix(in srgb, var(--yosuke-sidebar-bg) 86%, black);
+  --text-faint: color-mix(in srgb, var(--yosuke-muted-ink) 62%, transparent);
+  --link-color: var(--yosuke-accent-color);
+  --link-color-hover: color-mix(in srgb, var(--yosuke-accent-color) 78%, white);
+  --link-external-color: var(--yosuke-accent-color);
+  --interactive-accent: var(--yosuke-accent-color);
+  --interactive-accent-hover: color-mix(in srgb, var(--yosuke-accent-color) 82%, white);
+  --background-modifier-border-hover: color-mix(in srgb, var(--yosuke-hairline-color) 72%, var(--yosuke-accent-color));
+
+  --h1-color: var(--yosuke-neon-cyan);
+  --h2-color: var(--yosuke-accent-color);
+  --h3-color: color-mix(in srgb, var(--yosuke-accent-color) 72%, var(--yosuke-heading-mix));
+  --h4-color: color-mix(in srgb, var(--yosuke-neon-purple) 58%, var(--yosuke-heading-mix));
+  --h5-color: color-mix(in srgb, var(--yosuke-neon-pink) 48%, var(--yosuke-heading-mix));
+  --h6-color: var(--yosuke-muted-ink);
+
+  --tag-color: var(--yosuke-accent-color);
+  --tag-background: color-mix(in srgb, var(--yosuke-accent-color) 12%, transparent);
+  --tag-background-hover: color-mix(in srgb, var(--yosuke-accent-color) 18%, transparent);
+
+  /* ガラス（半透明の面） */
+  --yosuke-glass: color-mix(in srgb, var(--yosuke-surface-bg) 62%, transparent);
+}
+
+/* 白：Paper（Yosuke Design の light スロットを反転元にした） */
+.theme-light {
+  color-scheme: light;
+
+  /* パレットを白に差し替え */
+  --yosuke-paper-bg: #fbfbfa;
+  --yosuke-sidebar-bg: #f4f3ef;
+  --yosuke-surface-bg: #ffffff;
+  --yosuke-ink: #37352f;
+  --yosuke-muted-ink: #787672;
+  --yosuke-heading-color: #1f1e1b;
+  --yosuke-hairline-color: #e6e4df;
+  --yosuke-neon-blue: #2563eb;
+  --yosuke-neon-purple: #7c3aed;
+  --yosuke-neon-pink: #d6247a;
+  --yosuke-neon-green: #0d9488;
+  --yosuke-heading-mix: #16324f; /* 白は濃紺へ寄せて読ませる */
+
+  /* 00=紙 → 100=文字（明るい→暗い） */
+  --color-base-00: var(--yosuke-paper-bg);
+  --color-base-05: #f8f7f4;
+  --color-base-10: #f6f5f1;
+  --color-base-20: var(--yosuke-sidebar-bg);
+  --color-base-25: #edece7;
+  --color-base-30: var(--yosuke-hairline-color);
+  --color-base-35: #d9d7d1;
+  --color-base-40: #bfbdb6;
+  --color-base-50: #a8a59d;
+  --color-base-60: #8f8c85;
+  --color-base-70: var(--yosuke-muted-ink);
+  --color-base-100: var(--yosuke-ink);
+
+  /* アクセント（#0077b6 = hsl 201 100% 36%） */
+  --accent-h: 201;
+  --accent-s: 100%;
+  --accent-l: 36%;
+
+  --background-primary-alt: var(--yosuke-surface-bg);
+  --background-secondary-alt: color-mix(in srgb, var(--yosuke-sidebar-bg) 86%, white);
+  --text-faint: color-mix(in srgb, var(--yosuke-muted-ink) 60%, transparent);
+  --link-color: var(--yosuke-accent-color);
+  --link-color-hover: color-mix(in srgb, var(--yosuke-accent-color) 82%, black);
+  --link-external-color: var(--yosuke-accent-color);
+  --interactive-accent: var(--yosuke-accent-color);
+  --interactive-accent-hover: color-mix(in srgb, var(--yosuke-accent-color) 82%, black);
+  --background-modifier-border-hover: color-mix(in srgb, var(--yosuke-hairline-color) 75%, var(--yosuke-ink));
+
+  --h1-color: var(--yosuke-neon-cyan);
+  --h2-color: var(--yosuke-accent-color);
+  --h3-color: color-mix(in srgb, var(--yosuke-accent-color) 72%, var(--yosuke-heading-mix));
+  --h4-color: color-mix(in srgb, var(--yosuke-neon-purple) 58%, var(--yosuke-heading-mix));
+  --h5-color: color-mix(in srgb, var(--yosuke-neon-pink) 48%, var(--yosuke-heading-mix));
+  --h6-color: var(--yosuke-muted-ink);
+
+  --tag-color: var(--yosuke-accent-color);
+  --tag-background: color-mix(in srgb, var(--yosuke-accent-color) 12%, transparent);
+  --tag-background-hover: color-mix(in srgb, var(--yosuke-accent-color) 18%, transparent);
+}
+
+/* ─────────────────────────────────────────────────── */
+/* 3. 個別の見た目（変数で届かない所だけ。黒/白の差は最小限）    */
+/* ─────────────────────────────────────────────────── */
+
+/* 字間（日本語） */
+.markdown-source-view,
+.markdown-preview-view {
+  letter-spacing: var(--yosuke-letter-spacing);
+}
+
+/* ワークスペース全体：ネオン夜景の地（白は紙にうっすら色気） */
+.workspace,
+.workspace-split.mod-root,
+.workspace-leaf,
+.workspace-tabs {
+  background:
+    radial-gradient(circle at 8% 12%, color-mix(in srgb, var(--yosuke-neon-cyan) 14%, transparent), transparent 28%),
+    radial-gradient(circle at 86% 10%, color-mix(in srgb, var(--yosuke-neon-pink) 12%, transparent), transparent 28%),
+    radial-gradient(circle at 58% 92%, color-mix(in srgb, var(--yosuke-neon-green) 8%, transparent), transparent 32%),
+    linear-gradient(135deg, var(--yosuke-paper-bg) 0%, color-mix(in srgb, var(--yosuke-surface-bg) 58%, var(--yosuke-paper-bg)) 48%, color-mix(in srgb, var(--yosuke-neon-purple) 16%, var(--yosuke-paper-bg)) 100%);
+}
+
+/* サイドバー・リボン：ガラス */
+.workspace-ribbon,
+.mod-sidedock,
+.workspace-split.mod-left-split,
+.workspace-split.mod-right-split,
+.workspace-leaf-content[data-type="file-explorer"] {
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--yosuke-neon-cyan) 8%, transparent),
+      color-mix(in srgb, var(--yosuke-neon-pink) 5%, transparent) 44%,
+      color-mix(in srgb, var(--yosuke-neon-purple) 8%, transparent)),
+    color-mix(in srgb, var(--yosuke-sidebar-bg) 78%, transparent);
+  backdrop-filter: blur(18px) saturate(1.25);
+}
+
+.workspace-ribbon {
+  border-right: 1px solid var(--yosuke-hairline-color);
+}
+
+.workspace-ribbon.mod-left::before {
+  background: transparent;
+}
+
+.workspace-ribbon .side-dock-ribbon-action,
+.workspace-ribbon .clickable-icon {
+  border-radius: 8px;
+  color: color-mix(in srgb, var(--yosuke-muted-ink) 78%, var(--yosuke-ink));
+  transition: background-color 120ms ease, box-shadow 120ms ease, color 120ms ease;
+}
+
+.workspace-ribbon .side-dock-ribbon-action:hover,
+.workspace-ribbon .clickable-icon:hover {
+  background: color-mix(in srgb, var(--yosuke-neon-cyan) 14%, transparent);
+  color: var(--yosuke-neon-cyan);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--yosuke-neon-cyan) 32%, transparent);
+}
+
+/* 上部バー・タブ */
+.workspace-tab-header-container,
+.titlebar,
+.view-header {
+  background: var(--background-secondary);
+  border-color: var(--yosuke-hairline-color);
+}
+
+.theme-dark .workspace-tab-header-container,
+.theme-dark .titlebar,
+.theme-dark .view-header {
+  background: color-mix(in srgb, var(--yosuke-sidebar-bg) 96%, transparent);
+}
+
+.theme-dark .workspace-tab-header-container {
+  border-bottom-color: color-mix(in srgb, var(--yosuke-neon-cyan) 8%, transparent);
+  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.025);
+}
+
+.theme-dark .workspace-tabs.mod-top {
+  box-shadow: none;
+}
+
+.workspace-tab-header {
+  border: 1px solid transparent;
+  border-bottom: 0;
+  border-radius: 11px 11px 0 0;
+  margin: 3px 3px 0;
+  padding: 1px 3px 1px;
+  min-height: 32px;
+  transition: background-color 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
+}
+
+.workspace-tab-header-inner {
+  gap: 7px;
+  padding-inline: 11px;
+}
+
+.workspace-tab-header-inner-title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.workspace-tab-header:hover {
+  background: rgba(255, 255, 255, 0.035);
+  border-color: rgba(255, 255, 255, 0.055);
+}
+
+.theme-light .workspace-tab-header:hover {
+  background: color-mix(in srgb, var(--yosuke-ink) 6%, transparent);
+  border-color: color-mix(in srgb, var(--yosuke-ink) 10%, transparent);
+}
+
+.workspace-tab-header.is-active {
+  background: var(--yosuke-surface-bg);
+  box-shadow: inset 0 -2px 0 var(--yosuke-accent-color);
+}
+
+.theme-dark .workspace-tab-header.is-active {
+  position: relative;
+  background:
+    linear-gradient(135deg,
+      color-mix(in srgb, var(--yosuke-neon-cyan) 12%, transparent),
+      color-mix(in srgb, var(--yosuke-neon-purple) 8%, transparent),
+      color-mix(in srgb, var(--yosuke-neon-pink) 8%, transparent)),
+    color-mix(in srgb, var(--yosuke-surface-bg) 96%, transparent);
+  border-color: color-mix(in srgb, var(--yosuke-neon-cyan) 42%, transparent);
+  color: var(--yosuke-accent-color);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 -1px 0 color-mix(in srgb, var(--yosuke-neon-cyan) 28%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--yosuke-neon-cyan) 18%, transparent),
+    0 4px 14px rgba(0, 0, 0, 0.16);
+}
+
+/* 旧：タブ文字のグラデ（!important 6個）は廃止。単色＋下線のネオンで同じ印象を出す */
+.theme-dark .workspace-tab-header.is-active .workspace-tab-header-inner-title {
+  color: var(--yosuke-neon-cyan);
+  text-shadow: 0 0 12px color-mix(in srgb, var(--yosuke-neon-cyan) 20%, transparent);
+}
+
+.theme-dark .workspace-tab-header.is-active .workspace-tab-header-inner-close-button {
+  color: color-mix(in srgb, var(--yosuke-accent-color) 72%, var(--yosuke-muted-ink));
+}
+
+.theme-dark .workspace-tab-header.is-active::after {
+  content: "";
+  position: absolute;
+  inset-inline: 10px;
+  bottom: 1px;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--yosuke-neon-cyan), var(--yosuke-neon-purple), var(--yosuke-neon-pink));
+  box-shadow: 0 0 14px color-mix(in srgb, var(--yosuke-neon-cyan) 38%, transparent);
+}
+
+/* ファイルツリー */
+.view-header-title,
+.nav-file-title,
+.nav-folder-title {
+  color: var(--yosuke-ink);
+}
+
+.nav-file-title,
+.nav-folder-title {
+  border-radius: 7px;
+  box-sizing: border-box;
+  font-size: 14px;
+  margin: 2px 8px;
+  padding: 4px 9px;
+  transition: background-color 120ms ease, box-shadow 120ms ease, color 120ms ease;
+}
+
+.nav-file-title:hover,
+.nav-folder-title:hover {
+  background: color-mix(in srgb, var(--yosuke-ink) 5%, transparent);
+}
+
+.nav-file-title-content,
+.nav-folder-title-content {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nav-file-title.is-active {
+  background: color-mix(in srgb, var(--yosuke-surface-bg) 82%, transparent);
+  color: var(--yosuke-accent-color);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--yosuke-accent-color) 44%, var(--yosuke-hairline-color));
+}
+
+.theme-dark .nav-file-title.is-active {
+  background:
+    linear-gradient(90deg,
+      color-mix(in srgb, var(--yosuke-neon-cyan) 20%, transparent),
+      color-mix(in srgb, var(--yosuke-neon-pink) 10%, transparent),
+      transparent 78%),
+    color-mix(in srgb, var(--yosuke-surface-bg) 74%, transparent);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.035),
+    inset 0 0 0 2px color-mix(in srgb, var(--yosuke-neon-cyan) 38%, transparent),
+    0 0 16px color-mix(in srgb, var(--yosuke-neon-cyan) 8%, transparent);
+}
+
+/* エディタの地：ネオン夜景グラデ */
+.theme-dark .markdown-source-view,
+.theme-dark .markdown-preview-view {
+  background:
+    radial-gradient(circle at 14% 10%, color-mix(in srgb, var(--yosuke-neon-cyan) 13%, transparent), transparent 30%),
+    radial-gradient(circle at 92% 22%, color-mix(in srgb, var(--yosuke-neon-pink) 12%, transparent), transparent 32%),
+    radial-gradient(circle at 42% 98%, color-mix(in srgb, var(--yosuke-neon-purple) 12%, transparent), transparent 36%),
+    linear-gradient(135deg,
+      color-mix(in srgb, var(--yosuke-paper-bg) 96%, transparent),
+      color-mix(in srgb, var(--yosuke-surface-bg) 70%, var(--yosuke-paper-bg)) 54%,
+      color-mix(in srgb, var(--yosuke-neon-purple) 18%, var(--yosuke-paper-bg)));
+}
+
+/* 白：紙ベース＋うっすら色気 */
+.theme-light .markdown-source-view,
+.theme-light .markdown-preview-view {
+  background:
+    radial-gradient(circle at 14% 10%, color-mix(in srgb, var(--yosuke-neon-cyan) 6%, transparent), transparent 30%),
+    radial-gradient(circle at 92% 22%, color-mix(in srgb, var(--yosuke-neon-pink) 5%, transparent), transparent 32%),
+    radial-gradient(circle at 42% 98%, color-mix(in srgb, var(--yosuke-neon-purple) 5%, transparent), transparent 36%),
+    linear-gradient(135deg, var(--yosuke-paper-bg), color-mix(in srgb, var(--yosuke-surface-bg) 55%, var(--yosuke-paper-bg)));
+}
+
+/* 本文カード：ガラスで浮かせる（編集/閲覧ペア） */
+.markdown-source-view.mod-cm6 .cm-scroller,
+.markdown-preview-view {
+  padding-top: 24px;
+}
+
+.markdown-source-view.mod-cm6 .cm-content,
+.markdown-preview-sizer {
+  max-width: var(--file-line-width);
+  margin-inline: auto;
+  padding: 34px 46px 80px;
+}
+
+.markdown-source-view.mod-cm6 .cm-content {
+  margin-bottom: 10px;
+}
+
+.theme-dark .markdown-preview-sizer,
+.theme-dark .markdown-source-view.mod-cm6 .cm-content {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.025)),
+    color-mix(in srgb, var(--yosuke-surface-bg) 36%, transparent);
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 18px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 24px 80px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(16px) saturate(1.2);
+}
+
+/* 白：本文は白カードで浮かせる */
+.theme-light .markdown-preview-sizer,
+.theme-light .markdown-source-view.mod-cm6 .cm-content {
+  background: color-mix(in srgb, var(--yosuke-surface-bg) 90%, transparent);
+  border: 1px solid color-mix(in srgb, var(--yosuke-ink) 9%, transparent);
+  border-radius: 18px;
+  box-shadow:
+    0 1px 2px rgba(30, 34, 40, 0.04),
+    0 18px 60px rgba(30, 34, 40, 0.08);
+}
+
+/* 見出し共通（編集/閲覧ペア） */
+.markdown-preview-view h1,
+.markdown-preview-view h2,
+.markdown-preview-view h3,
+.markdown-preview-view h4,
+.markdown-preview-view h5,
+.markdown-preview-view h6,
+.cm-header-1,
+.cm-header-2,
+.cm-header-3,
+.cm-header-4,
+.cm-header-5,
+.cm-header-6 {
+  letter-spacing: 0;
+  line-height: 1.25;
+  text-shadow: none;
+}
+
+/* H1：ネオンの全周枠 */
+.markdown-preview-view h1,
+.cm-header-1 {
+  line-height: var(--h1-line-height);
+  font-family: var(--h1-font);
+}
+
+.markdown-preview-view h1,
+.markdown-source-view.mod-cm6 .cm-line:has(.cm-header-1) {
+  border: solid 3px color-mix(in srgb, var(--yosuke-neon-cyan) 76%, var(--yosuke-neon-purple));
+  border-radius: 0.5em;
+  padding: 0.5em;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.055),
+    0 0 20px color-mix(in srgb, var(--yosuke-neon-cyan) 12%, transparent);
+}
+
+/* H2：左線 */
+.markdown-preview-view h2,
+.markdown-source-view.mod-cm6 .cm-line:has(.cm-header-2) {
+  background: transparent;
+  border-bottom: 0;
+  border-left: solid 5px var(--yosuke-accent-color);
+  padding: 0.25em 0.5em;
+}
+
+.theme-dark .markdown-preview-view h2,
+.theme-dark .markdown-source-view.mod-cm6 .cm-line:has(.cm-header-2) {
+  border-left-color: var(--yosuke-neon-cyan);
+  box-shadow: -1px 0 12px color-mix(in srgb, var(--yosuke-neon-cyan) 14%, transparent);
+}
+
+/* H3：下線 */
+.markdown-preview-view h3,
+.markdown-source-view.mod-cm6 .cm-line:has(.cm-header-3) {
+  border-bottom: solid 3px color-mix(in srgb, var(--yosuke-neon-cyan) 72%, var(--yosuke-neon-blue));
+  padding-bottom: 0.28em;
+}
+
+/* H4：細い左線 */
+.markdown-preview-view h4,
+.markdown-source-view.mod-cm6 .cm-line:has(.cm-header-4) {
+  border-left: 2px solid color-mix(in srgb, var(--yosuke-neon-purple) 54%, transparent);
+  padding-left: 0.55em;
+}
+
+/* H6：小さく大文字 */
+.markdown-preview-view h6,
+.cm-header-6 {
+  font-size: 0.95em;
+  text-transform: uppercase;
+}
+
+/* リンク */
+.markdown-preview-view a,
+.cm-link,
+.cm-hmd-internal-link {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+/* 引用（編集/閲覧ペア） */
+.markdown-rendered blockquote,
+.HyperMD-quote {
+  border-left: 3px solid var(--yosuke-accent-color);
+  background: color-mix(in srgb, var(--yosuke-surface-bg) 74%, var(--yosuke-paper-bg));
+  border-radius: 0 8px 8px 0;
+  color: var(--yosuke-muted-ink);
+}
+
+.theme-dark .markdown-rendered blockquote,
+.theme-dark .HyperMD-quote {
+  background:
+    linear-gradient(90deg,
+      color-mix(in srgb, var(--yosuke-neon-cyan) 16%, transparent),
+      color-mix(in srgb, var(--yosuke-neon-purple) 8%, transparent),
+      transparent),
+    color-mix(in srgb, var(--yosuke-surface-bg) 48%, transparent);
+  border-left-color: var(--yosuke-neon-cyan);
+}
+
+/* インラインコード */
+.markdown-rendered code,
+.cm-inline-code {
+  background: color-mix(in srgb, var(--yosuke-ink) 6%, transparent);
+  border: 1px solid var(--yosuke-hairline-color);
+  border-radius: 5px;
+  color: color-mix(in srgb, var(--yosuke-ink) 86%, var(--yosuke-accent-color));
+  padding: 0.08em 0.32em;
+}
+
+/* コードブロック・表・コールアウト：ガラスの面 */
+.markdown-rendered pre,
+.HyperMD-codeblock {
+  background: var(--yosuke-surface-bg);
+  border: 1px solid var(--yosuke-hairline-color);
+  border-radius: 12px;
+}
+
+.markdown-rendered table {
+  background: var(--yosuke-surface-bg);
+  border: 1px solid var(--yosuke-hairline-color);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.markdown-rendered th {
+  background: color-mix(in srgb, var(--yosuke-paper-bg) 72%, white);
+  color: var(--yosuke-muted-ink);
+  font-size: 0.86em;
+  font-weight: 600;
+}
+
+.markdown-rendered td,
+.markdown-rendered th {
+  border-color: var(--yosuke-hairline-color);
+}
+
+.callout {
+  background: var(--yosuke-surface-bg);
+  border: 1px solid var(--yosuke-hairline-color);
+  border-radius: 12px;
+  box-shadow:
+    0 0.8px 2px rgba(0, 0, 0, 0.02),
+    0 5px 18px rgba(0, 0, 0, 0.04);
+}
+
+.theme-dark .markdown-rendered pre,
+.theme-dark .HyperMD-codeblock,
+.theme-dark .markdown-rendered table,
+.theme-dark .callout {
+  background:
+    linear-gradient(135deg,
+      color-mix(in srgb, var(--yosuke-neon-cyan) 6%, transparent),
+      color-mix(in srgb, var(--yosuke-neon-pink) 4%, transparent)),
+    color-mix(in srgb, var(--yosuke-surface-bg) 64%, transparent);
+  border-color: rgba(255, 255, 255, 0.09);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 10px 34px rgba(0, 0, 0, 0.24);
+  backdrop-filter: blur(14px);
+}
+
+/* ボタン・アイコンの角 */
+.checkbox-container,
+button,
+.clickable-icon {
+  border-radius: 8px;
+}
+
+.markdown-preview-view button,
+.markdown-rendered button {
+  display: inline-block;
+}
+
+/* ─────────────────────────────────────────────────── */
+/* 4. 他プラグイン向け（今は無し。ここだけ !important を許す）*/
+/* ─────────────────────────────────────────────────── */
