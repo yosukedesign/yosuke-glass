@@ -1,9 +1,9 @@
 /*───────────────────────────────────────────────────────
 YOSUKE GLASS
-Version 0.1.1
-Created by Yosuke (@yosukedesign)
+Version 0.1.2
+Created by Yosuke  (@yosukedesign)
 
-黒＝Future Glass（ネオン夜景のガラス）／白＝Paper（紙）。※「Soft Paper」は nickmilo の既存テーマ名なので内部呼称も Paper に統一
+黒＝Future Glass（ネオン夜景のガラス）／白＝Paper（紙）。
 相棒プラグイン Yosuke Design が --yosuke-* を body に上書きする。
 ここでは既定値だけ持つ（!important は使わない）。
 
@@ -62,7 +62,13 @@ body {
   --h2-weight: 700;
   --h3-size: 1.2em;
   --h3-weight: 600;
-  --heading-spacing: 2.2em;
+  --h4-size: 1.1em;
+  --h4-weight: 700;
+  --h5-size: 1em;
+  --h5-weight: 700;
+  --h6-size: 1em;
+  --h6-weight: 700;
+  --heading-spacing: 1rem;
 
   /* 形 */
   --radius-s: 5px;
@@ -121,9 +127,9 @@ body {
   --h1-color: var(--yosuke-neon-cyan);
   --h2-color: var(--yosuke-accent-color);
   --h3-color: color-mix(in srgb, var(--yosuke-accent-color) 72%, var(--yosuke-heading-mix));
-  --h4-color: color-mix(in srgb, var(--yosuke-neon-purple) 58%, var(--yosuke-heading-mix));
-  --h5-color: color-mix(in srgb, var(--yosuke-neon-pink) 48%, var(--yosuke-heading-mix));
-  --h6-color: var(--yosuke-muted-ink);
+  --h4-color: var(--h3-color);
+  --h5-color: var(--h3-color);
+  --h6-color: var(--h3-color);
 
   --tag-color: var(--yosuke-accent-color);
   --tag-background: color-mix(in srgb, var(--yosuke-accent-color) 12%, transparent);
@@ -133,7 +139,7 @@ body {
   --yosuke-glass: color-mix(in srgb, var(--yosuke-surface-bg) 62%, transparent);
 }
 
-/* 白：Paper（Yosuke Design の light スロットを反転元にした） */
+/* 白：Paper */
 .theme-light {
   color-scheme: light;
 
@@ -183,9 +189,9 @@ body {
   --h1-color: var(--yosuke-neon-cyan);
   --h2-color: var(--yosuke-accent-color);
   --h3-color: color-mix(in srgb, var(--yosuke-accent-color) 72%, var(--yosuke-heading-mix));
-  --h4-color: color-mix(in srgb, var(--yosuke-neon-purple) 58%, var(--yosuke-heading-mix));
-  --h5-color: color-mix(in srgb, var(--yosuke-neon-pink) 48%, var(--yosuke-heading-mix));
-  --h6-color: var(--yosuke-muted-ink);
+  --h4-color: var(--h3-color);
+  --h5-color: var(--h3-color);
+  --h6-color: var(--h3-color);
 
   --tag-color: var(--yosuke-accent-color);
   --tag-background: color-mix(in srgb, var(--yosuke-accent-color) 12%, transparent);
@@ -234,7 +240,7 @@ body {
 }
 
 .workspace-ribbon.mod-left::before {
-  background: transparent;
+  display: none;
 }
 
 .workspace-ribbon .side-dock-ribbon-action,
@@ -327,7 +333,6 @@ body {
     0 4px 14px rgba(0, 0, 0, 0.16);
 }
 
-/* 旧：タブ文字のグラデ（!important 6個）は廃止。単色＋下線のネオンで同じ印象を出す */
 .theme-dark .workspace-tab-header.is-active .workspace-tab-header-inner-title {
   color: var(--yosuke-neon-cyan);
   text-shadow: 0 0 12px color-mix(in srgb, var(--yosuke-neon-cyan) 20%, transparent);
@@ -429,7 +434,25 @@ body {
 .markdown-preview-sizer {
   max-width: var(--file-line-width);
   margin-inline: auto;
-  padding: 34px 46px 80px;
+  padding: 24px;
+}
+
+.markdown-source-view.mod-cm6 .cm-content > .cm-line.HyperMD-header:first-child {
+  padding-top: 0;
+}
+
+.markdown-source-view.mod-cm6 .cm-content > .cm-line.HyperMD-header-1:first-child {
+  padding-top: 0.3em;
+}
+
+.markdown-source-view.mod-cm6 .cm-content > .cm-line.HyperMD-header-1:first-child::before {
+  inset-block-start: 0;
+}
+
+/* スマホ */
+.is-phone .markdown-source-view.mod-cm6 .cm-content,
+.is-phone .markdown-preview-sizer {
+  padding: 8px;
 }
 
 .markdown-source-view.mod-cm6 .cm-content {
@@ -478,6 +501,47 @@ body {
   text-shadow: none;
 }
 
+/* 見出しの上余白（編集ビュー） */
+.cm-s-obsidian .cm-line.HyperMD-header {
+  padding-top: 0.625rem;
+}
+
+.cm-s-obsidian .cm-line.HyperMD-header-3,
+.cm-s-obsidian .cm-line.HyperMD-header-4,
+.cm-s-obsidian .cm-line.HyperMD-header-5,
+.cm-s-obsidian .cm-line.HyperMD-header-6 {
+  padding-top: 0.3125rem;
+}
+
+.cm-s-obsidian .cm-content .cm-line.HyperMD-header + .cm-line:not(.HyperMD-header) + .cm-line.cm-line.HyperMD-header {
+  padding-top: 0.625rem;
+}
+
+.cm-s-obsidian .cm-content .cm-line.HyperMD-header + .cm-line:not(.HyperMD-header) + .cm-line.cm-line.HyperMD-header-1 {
+  padding-top: calc(0.625rem + 0.3em);
+}
+
+.cm-s-obsidian .cm-content .cm-line.HyperMD-header + .cm-line:not(.HyperMD-header) + .cm-line.cm-line.HyperMD-header-3,
+.cm-s-obsidian .cm-content .cm-line.HyperMD-header + .cm-line:not(.HyperMD-header) + .cm-line.cm-line.HyperMD-header-4,
+.cm-s-obsidian .cm-content .cm-line.HyperMD-header + .cm-line:not(.HyperMD-header) + .cm-line.cm-line.HyperMD-header-5,
+.cm-s-obsidian .cm-content .cm-line.HyperMD-header + .cm-line:not(.HyperMD-header) + .cm-line.cm-line.HyperMD-header-6 {
+  padding-top: 0.3125rem;
+}
+
+/* 閲覧ビュー */
+.markdown-rendered :is(p, pre, table, ul, ol) + :is(h3, h4, h5, h6) {
+  margin-top: 0.5rem;
+}
+
+/* 見出しの直後の行（編集ビュー） */
+.cm-s-obsidian .cm-content .cm-line.HyperMD-header.HyperMD-header-1 + .cm-line:not(.HyperMD-header),
+.cm-s-obsidian .cm-content .cm-line.HyperMD-header.HyperMD-header-2 + .cm-line:not(.HyperMD-header),
+.cm-s-obsidian .cm-content .cm-line.HyperMD-header.HyperMD-header-3 + .cm-line:not(.HyperMD-header),
+.cm-s-obsidian .cm-content .cm-line.HyperMD-header.HyperMD-header-4 + .cm-line:not(.HyperMD-header),
+.cm-s-obsidian .cm-content .cm-line.HyperMD-header.HyperMD-header-5 + .cm-line:not(.HyperMD-header) {
+  padding-top: 0.4rem;
+}
+
 /* H1：ネオンの全周枠 */
 .markdown-preview-view h1,
 .cm-header-1 {
@@ -485,29 +549,54 @@ body {
   font-family: var(--h1-font);
 }
 
-.markdown-preview-view h1,
-.HyperMD-header.HyperMD-header-1.cm-line {
+.markdown-preview-view h1 {
   border: solid 3px color-mix(in srgb, var(--yosuke-neon-cyan) 76%, var(--yosuke-neon-purple));
   border-radius: 0.5em;
-  padding: 0.5em;
+  padding: 0.3em 0.5em;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.055),
     0 0 20px color-mix(in srgb, var(--yosuke-neon-cyan) 12%, transparent);
 }
 
+/* H1：編集ビュー */
+.HyperMD-header.HyperMD-header-1.cm-line {
+  position: relative;
+  padding: calc(0.625rem + 0.3em) 0.5em 0.3em;
+}
+
+.HyperMD-header.HyperMD-header-1.cm-line::before {
+  content: "";
+  position: absolute;
+  inset: 0.625rem 0 0 0;
+  border: solid 3px color-mix(in srgb, var(--yosuke-neon-cyan) 76%, var(--yosuke-neon-purple));
+  border-radius: 0.5em;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.055),
+    0 0 20px color-mix(in srgb, var(--yosuke-neon-cyan) 12%, transparent);
+  pointer-events: none;
+}
+
 /* H2：左線 */
-.markdown-preview-view h2,
-.HyperMD-header.HyperMD-header-2.cm-line {
+.markdown-preview-view h2 {
   background: transparent;
   border-bottom: 0;
   border-left: solid 5px var(--yosuke-accent-color);
   padding: 0.25em 0.5em;
 }
 
-.theme-dark .markdown-preview-view h2,
-.theme-dark .HyperMD-header.HyperMD-header-2.cm-line {
+/* H2：編集ビュー */
+.HyperMD-header.HyperMD-header-2.cm-line {
+  border-bottom: 0;
+  background-image: linear-gradient(var(--yosuke-accent-color), var(--yosuke-accent-color));
+  background-repeat: no-repeat;
+  background-origin: content-box;
+  background-size: 5px calc(100% + 0.5em);
+  background-position: -0.5em -0.25em;
+  padding: 0.625rem 0.5em 0.25em 0.5em;
+}
+
+.theme-dark .markdown-preview-view h2 {
   border-left-color: var(--yosuke-neon-cyan);
-  box-shadow: -1px 0 12px color-mix(in srgb, var(--yosuke-neon-cyan) 14%, transparent);
 }
 
 /* H3：下線 */
@@ -517,22 +606,33 @@ body {
   padding-bottom: 0.28em;
 }
 
-/* H4：細い左線 */
+/* H4：短い下線 */
 .markdown-preview-view h4,
 .HyperMD-header.HyperMD-header-4.cm-line {
-  border-left: 2px solid color-mix(in srgb, var(--yosuke-neon-purple) 54%, transparent);
-  padding-left: 0.55em;
+  background-image: linear-gradient(var(--yosuke-accent-color), var(--yosuke-accent-color));
+  background-repeat: no-repeat;
+  background-size: 2.5em 2px;
+  background-position: left calc(100% + 0.22em);
+  background-origin: content-box;
+  padding-bottom: calc(0.22em + 2px);
 }
 
-/* H6：小さく大文字 */
+/* H5：文字の下だけ点線 */
+.markdown-preview-view h5 {
+  width: fit-content;
+}
+
+.markdown-preview-view h5,
+.cm-header-5:not(.cm-formatting) {
+  border-bottom: 1px dotted var(--yosuke-accent-color);
+  padding-bottom: 0.2em;
+}
+
+/* H6：大文字 */
 .markdown-preview-view h6,
 .cm-header-6 {
-  font-size: 0.95em;
   text-transform: uppercase;
 }
-
-/* リンク */
-/* リンクの下線の太さ・位置は Obsidian 1.4 系で未対応（審査Warning）のため指定しない */
 
 /* 引用（編集/閲覧ペア） */
 .markdown-rendered blockquote,
@@ -628,6 +728,3 @@ button,
   display: inline-block;
 }
 
-/* ─────────────────────────────────────────────────── */
-/* 4. 他プラグイン向け（今は無し。ここだけ !important を許す）*/
-/* ─────────────────────────────────────────────────── */
