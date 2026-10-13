@@ -1,6 +1,6 @@
 /*───────────────────────────────────────────────────────
 YOSUKE GLASS
-Version 0.1.3
+Version 0.1.4
 Created by Yosuke  (@yosukedesign)
 
 黒＝Future Glass（ネオン夜景のガラス）／白＝Paper（紙）。
@@ -237,11 +237,19 @@ body {
 
 .workspace-ribbon {
   border-right: 1px solid var(--yosuke-hairline-color);
+  backdrop-filter: none;
 }
 
+/* リボン上端の帯（信号ボタンの下）は上部バーと同じ色にそろえる */
 .workspace-ribbon.mod-left::before,
 .workspace-ribbon.mod-primary::before {
-  display: none;
+  background-color: var(--background-secondary);
+  border-bottom: 1px solid var(--yosuke-hairline-color);
+}
+
+.theme-dark .workspace-ribbon.mod-left::before,
+.theme-dark .workspace-ribbon.mod-primary::before {
+  background-color: color-mix(in srgb, var(--yosuke-sidebar-bg) 96%, transparent);
 }
 
 .workspace-ribbon .side-dock-ribbon-action,
